@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------
+# "OrdererOrgs" - Definimos el order administrador de los nodos quien apartir de èl se generan los certificados
+# ---------------------------------------------------------------------------
+OrdererOrgs:
+  - Name: Orderer
+    Domain: myapp.com
+    Specs:
+      - Hostname: orderer
+# ---------------------------------------------------------------------------
+# "PeerOrgs" - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:
+  - Name: netflix
+    Domain: netflix.myapp.com
+    # ---------------------------------------------------------------------------
+    # "Specs" //NUMERO DE PEERS QUE QUEREMOS POR ORG
+    Template:
+      Count: 1
+    Users:
+      Count: 1
+  - Name: hbo
+    Domain: hbo.myapp.com
+    Template:
+      Count: 1
+    Users:
+      Count: 1
