@@ -9,17 +9,29 @@ metadata:
     io.kompose.service: peer0-netflix-myapp-com
   name: peer0-netflix-myapp-com
 spec:
+  type: NodePort
   ports:
-  - name: "7051"
-    port: 7051
-    targetPort: 7051
-  - name: "7052"
-    port: 7052
-    targetPort: 7052
-  - name: "7053"
-    port: 7053
-    targetPort: 7053
+    - name: externale-listen-endpoint
+      protocol: TCP
+      port: 7051
+      targetPort: 7054
+      nodePort: 30054
+
+    - name: chaincode-listen
+      protocol: TCP
+      port: 7052
+      targetPort: 7055
+      nodePort: 30055
+
+
+#  - name: "7051"
+#    port: 7051
+#    targetPort: 7051
+#  - name: "7052"
+#    port: 7052
+#    targetPort: 7052
+#  - name: "7053"
+#    port: 7053
+#    targetPort: 7053
   selector:
     io.kompose.service: peer0-netflix-myapp-com
-status:
-  loadBalancer: {}

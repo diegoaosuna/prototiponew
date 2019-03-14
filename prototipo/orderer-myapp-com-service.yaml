@@ -9,11 +9,11 @@ metadata:
     io.kompose.service: orderer-myapp-com
   name: orderer-myapp-com
 spec:
+  type: NodePort
   ports:
   - name: "7050"
     port: 7050
     targetPort: 7050
+    nodePort: 30050
   selector:
     io.kompose.service: orderer-myapp-com
-status:
-  loadBalancer: {}

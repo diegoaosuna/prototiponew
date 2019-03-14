@@ -9,5 +9,3 @@ CORE_PEER_TLS_ENABLED=true
 peer channel create -o orderer.myapp.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/serieschannel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 cat log.txt
 
-
-~                  

@@ -20,20 +20,20 @@ spec:
     spec:
       containers:
       - env:
-        - name: CORE_LOGGING_LEVEL
-          value: DEBUG
-        - name: CORE_PEER_ADDRESS
-          value: peer0.netflix.myapp.com:7051
-        - name: CORE_PEER_CHAINCODELISTENADDRESS
-          value: localhost:7052
-        - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
-          value: peer0.netflix.myapp.com:7051
-        - name: CORE_PEER_GOSSIP_ORGLEADER
-          value: "false"
-        - name: CORE_PEER_GOSSIP_USELEADERELECTION
-          value: "true"
-        - name: CORE_PEER_ID
-          value: peer0.netflix.myapp.com
+        #- name: CORE_LOGGING_LEVEL
+        #  value: DEBUG
+        #- name: CORE_PEER_ADDRESS
+        #  value: peer0-netflix-myapp-com:7051
+        #- name: CORE_PEER_CHAINCODELISTENADDRESS
+        #  value: 0.0.0.0:7052
+        #- name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+        #  value: peer0-netflix-myapp-com:7051
+        #- name: CORE_PEER_GOSSIP_ORGLEADER
+        #  value: "false"
+        #- name: CORE_PEER_GOSSIP_USELEADERELECTION
+        #  value: "true"
+        #- name: CORE_PEER_ID
+        #  value: peer0.netflix.myapp.com
         - name: CORE_PEER_LOCALMSPID
           value: netflixMSP
         - name: CORE_PEER_PROFILE_ENABLED

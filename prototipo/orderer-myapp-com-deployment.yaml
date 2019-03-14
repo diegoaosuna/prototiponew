@@ -42,8 +42,8 @@ spec:
           value: /var/hyperledger/orderer/tls/server.key 
         - name: ORDERER_GENERAL_TLS_ROOTCAS
           value: '[/var/hyperledger/orderer/tls/ca.crt]'
-        - name: CORE_VM_DOCKER_HOSTCONFIG_DNS
-          value: 10.3.240.10
+        #- name: CORE_VM_DOCKER_HOSTCONFIG_DNS
+        #  value: 10.3.240.10
         image: hyperledger/fabric-orderer
         name: orderer-myapp-com
         ports:
