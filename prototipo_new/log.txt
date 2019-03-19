@@ -1,0 +1,6 @@
+No command 'peer' found, did you mean:
+ Command 'pee' from package 'moreutils' (universe)
+ Command 'peet' from package 'pipexec' (universe)
+ Command 'pear' from package 'php-pear' (main)
+ Command 'beer' from package 'gerstensaft' (universe)
+peer: command not found

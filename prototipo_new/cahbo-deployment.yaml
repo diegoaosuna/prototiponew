@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: cahbo
+  name: cahbo
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: cahbo
+    spec:
+      containers:
+      - args:
+        - sh
+        - -c
+        - fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.hbo.myapp.com-cert.pem
+          --ca.keyfile /etc/hyperledger/fabric-ca-server-config/9d5f00fb5ac2ca62ce8c387b6eba2180cd0f0d5a2ac90c17a3bcdeccb4ca5c68_sk
+          -b admin:adminpw -d
+        env:
+        - name: FABRIC_CA_HOME
+          value: /etc/hyperledger/fabric-ca-server
+        - name: FABRIC_CA_SERVER_CA_NAME
+          value: ca-hbo
+        - name: FABRIC_CA_SERVER_TLS_CERTFILE
+          value: /etc/hyperledger/fabric-ca-server-config/ca.hbo.myapp.com-cert.pem
+        - name: FABRIC_CA_SERVER_TLS_ENABLED
+          value: "true"
+        - name: FABRIC_CA_SERVER_TLS_KEYFILE
+          value: /etc/hyperledger/fabric-ca-server-config/9d5f00fb5ac2ca62ce8c387b6eba2180cd0f0d5a2ac90c17a3bcdeccb4ca5c68_sk
+        - name: CORE_VM_DOCKER_HOSTCONFIG_DNS
+          value: 10.3.240.10
+        image: hyperledger/fabric-ca
+        name: ca-peerhbo
+        ports:
+        - containerPort: 7054
+        resources: {}
+        volumeMounts:
+        - name: my-pvc-nfs
+          mountPath: /etc/hyperledger/fabric-ca-server-config
+          subPath: peerOrganizations/hbo.myapp.com/ca
+      restartPolicy: Always
+      volumes:
+      - name: my-pvc-nfs
+        persistentVolumeClaim:
+          claimName: nfs
+      #- name: cahbo-claim0
+      #  persistentVolumeClaim:
+      #    claimName: cahbo-claim0
+status: {}

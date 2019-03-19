@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: canetflix
+  name: canetflix
+spec:
+  ports:
+  - name: "7054"
+    port: 7054
+    targetPort: 7054
+  selector:
+    io.kompose.service: canetflix
+status:
+  loadBalancer: {}

@@ -1,0 +1,77 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: peer0-hbo-myapp-com
+  name: peer0-hbo-myapp-com
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: peer0-hbo-myapp-com
+    spec:
+      containers:
+      - env:
+        - name: CORE_LOGGING_LEVEL
+          value: DEBUG
+        #- name: CORE_PEER_ADDRESS
+        #  value: peer0-hbo-myapp-com:7051
+        #- name: CORE_PEER_CHAINCODELISTENADDRESS
+        #  value: 0.0.0.0:7052
+        #- name: CORE_PEER_GOSSIP_BOOTSTRAP
+        #  value: peer0-hbo-myapp-com:7051
+        #- name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+        #  value: peer0-hbo-myapp-com:7051
+        #- name: CORE_PEER_GOSSIP_ORGLEADER
+        #  value: "false"
+        #- name: CORE_PEER_GOSSIP_USELEADERELECTION
+        #  value: "true"
+        #- name: CORE_PEER_ID
+        #  value: peer0-hbo-myapp-com
+        - name: CORE_PEER_LOCALMSPID
+          value: hboMSP
+        - name: CORE_PEER_PROFILE_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /etc/hyperledger/fabric/tls/server.crt
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /etc/hyperledger/fabric/tls/server.key
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /etc/hyperledger/fabric/tls/ca.crt
+        #- name: CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE
+        #  value: prototipo_default
+        - name: CORE_VM_ENDPOINT
+          value: unix:///host/var/run/docker.sock
+        - name: CORE_VM_DOCKER_HOSTCONFIG_DNS
+          value: 10.3.240.10
+        image: hyperledger/fabric-peer
+        name: peer0-hbo-myapp-com
+        ports:
+        - containerPort: 7051
+        - containerPort: 7052
+        - containerPort: 7053
+        resources: {}
+        volumeMounts:
+        - name: my-pvc-nfs
+          mountPath: /etc/hyperledger/fabric/msp
+          subPath: peerOrganizations/hbo.myapp.com/peers/peer0.hbo.myapp.com/msp
+        - name: my-pvc-nfs
+          mountPath: /etc/hyperledger/fabric/tls
+          subPath: peerOrganizations/hbo.myapp.com/peers/peer0.hbo.myapp.com/tls
+        workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      restartPolicy: Always
+      volumes:
+      - name: my-pvc-nfs
+        persistentVolumeClaim:
+          claimName: nfs
+status: {}

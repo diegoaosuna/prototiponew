@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: canetflix
+  name: canetflix
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: canetflix
+    spec:
+      containers:
+      - args:
+        - sh
+        - -c
+        - fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.netflix.myapp.com-cert.pem
+          --ca.keyfile /etc/hyperledger/fabric-ca-server-config/3babc5f6e1e3bf614215f7f210e6179580bf99a06c315ca9a2922997a3e2ecf5_sk
+          -b admin:adminpw -d
+        env:
+        - name: FABRIC_CA_HOME
+          value: /etc/hyperledger/fabric-ca-server
+        - name: FABRIC_CA_SERVER_CA_NAME
+          value: ca-netflix
+        - name: FABRIC_CA_SERVER_TLS_CERTFILE
+          value: /etc/hyperledger/fabric-ca-server-config/ca.netflix.myapp.com-cert.pem
+        - name: FABRIC_CA_SERVER_TLS_ENABLED
+          value: "true"
+        - name: FABRIC_CA_SERVER_TLS_KEYFILE
+          value: /etc/hyperledger/fabric-ca-server-config/3babc5f6e1e3bf614215f7f210e6179580bf99a06c315ca9a2922997a3e2ecf5_sk
+        - name: CORE_VM_DOCKER_HOSTCONFIG_DNS
+          value: 10.3.240.10
+        image: hyperledger/fabric-ca
+        name: ca-peernetflix
+        ports:
+        - containerPort: 7054
+        resources: {}
+        volumeMounts:
+        - name: my-pvc-nfs
+          mountPath: /etc/hyperledger/fabric-ca-server-config
+          subPath: peerOrganizations/netflix.myapp.com/ca
+      restartPolicy: Always
+      volumes:
+      - name: my-pvc-nfs
+        persistentVolumeClaim:
+          claimName: nfs
+status: {}
